@@ -211,15 +211,19 @@ public class ProcessesPanel extends JPanel {
                 tableModel.addRow(processInfo);
             }
 
-            // Calculate CPU and Memory percentages
-            double cpuPercentage = calculateCpuPercentage(processData) * 100;
-            double memoryPercentage = calculateMemoryPercentage(processData) * 100;
+            try {
+                // Calculate CPU and Memory percentages
+                double cpuPercentage = calculateCpuPercentage(processData) * 100;
+                double memoryPercentage = calculateMemoryPercentage(processData) * 100;
 
-            // Update the CPU and Memory progress bars
-            cpuProgressBar.setValue((int) cpuPercentage);
-            cpuProgressBar.setString(String.format("CPU: %.0f%%", cpuPercentage));
-            memoryProgressBar.setValue((int) memoryPercentage);
-            memoryProgressBar.setString(String.format("Memory: %.0f%%", memoryPercentage));
+                // Update the CPU and Memory progress bars
+                cpuProgressBar.setValue((int) cpuPercentage);
+                cpuProgressBar.setString(String.format("CPU: %.0f%%", cpuPercentage));
+                memoryProgressBar.setValue((int) memoryPercentage);
+                memoryProgressBar.setString(String.format("Memory: %.0f%%", memoryPercentage));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             // Wait for the process to complete
             int exitCode = process.waitFor();
@@ -227,7 +231,7 @@ public class ProcessesPanel extends JPanel {
                 // Handle any errors if necessary
                 System.err.println("Error executing script. Exit code: " + exitCode);
             }
-        } catch (IOException | InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
